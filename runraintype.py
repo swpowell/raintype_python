@@ -97,8 +97,8 @@ maxsize = 2000;           #(in km^2)
 
 ## Information about where the reflectivity data is located and where outputs should be written.
 ###fileDir = '/home/disk/mjo/dynamo/data.server/zebra/moments/sband/sur_2km/20111016/';
-fileDir = '/home/disk/anvil2/spowell/DYNAMO/PolarCS_V5/python/Cartesian/in/Paul/';
-fileDirOut = '/home/disk/anvil2/spowell/DYNAMO/PolarCS_V5/python/Cartesian/out2km/';
+fileDir = '/home/disk/anvil2/spowell/Raintype_Distribute/python/Cartesian/in/Paul/';
+fileDirOut = '/home/disk/anvil2/spowell/Raintype_Distribute/python/Cartesian/out2km/';
 
 ## Information about output
 title = 'Rain type classification of DYNAMO SPolKa radar data';
@@ -215,25 +215,25 @@ for fname in os.listdir(fileDir):
     for i in range(0,refl.shape[0]):
       for j in range(0,refl.shape[1]):
         #The normal case
-        if i >= edgevalue+1 and i < Z.shape[0]-edgevalue-1 and j >= edgevalue+1 and j < Z.shape[1]-edgevalue-1:
+        if i > edgevalue+1 and i < Z.shape[0]-edgevalue-2 and j > edgevalue+1 and j < Z.shape[1]-edgevalue-2:
           #This is a 10km X 10 km square for data with 2km grid spacing. It's not a circle with 5 km
           #radius, but it's good enough.
           background[i,j] = np.nanmean(np.nanmean(Z[i-bgrange:i+bgrange+1,j-bgrange:j+bgrange+1]));
-        elif i <= edgevalue and j <= edgevalue:   #Bottom left corner
+        elif i <= edgevalue+1 and j <= edgevalue+1:   #Bottom left corner
           background[i,j] = np.nanmean(np.nanmean(Z[0:i+bgrange+1,0:j+bgrange+1]));
-        elif i <= edgevalue and j > edgevalue and j < Z.shape[1]-edgevalue-1: #Left side
+        elif i <= edgevalue+1 and j > edgevalue+1 and j < Z.shape[1]-edgevalue-2: #Left side
           background[i,j] = np.nanmean(np.nanmean(Z[0:i+bgrange+1,j-bgrange:j+bgrange+1]));
-        elif i <= edgevalue and j >= Z.shape[1]-edgevalue-1: #Top left corner
+        elif i <= edgevalue+1 and j >= Z.shape[1]-edgevalue-2: #Top left corner
           background[i,j] = np.nanmean(np.nanmean(Z[0:i+bgrange+1,j-bgrange:Z.shape[1]+1]));
-        elif i >= Z.shape[0]-edgevalue-1 and j >= Z.shape[1]-edgevalue-1:  #Top right corner
+        elif i >= Z.shape[0]-edgevalue-2 and j >= Z.shape[1]-edgevalue-2:  #Top right corner
           background[i,j] = np.nanmean(np.nanmean(Z[i-bgrange:Z.shape[0]+1,j-bgrange:Z.shape[1]+1]));
-        elif i >= Z.shape[0]-edgevalue-1 and j <= edgevalue:  #Bottom right corner
+        elif i >= Z.shape[0]-edgevalue-2 and j <= edgevalue+1:  #Bottom right corner
           background[i,j] = np.nanmean(np.nanmean(Z[i-bgrange:Z.shape[0]+1,0:j+bgrange+1]));
-        elif i >= Z.shape[0]-edgevalue-1 and j >= edgevalue + 1 and j < Z.shape[1]-edgevalue-1:  #Right side
+        elif i >= Z.shape[0]-edgevalue-2 and j > edgevalue+1 and j < Z.shape[1]-edgevalue-2:  #Right side
           background[i,j] = np.nanmean(np.nanmean(Z[i-bgrange:Z.shape[0]+1,j-bgrange:j+bgrange]+1));
-        elif i >= edgevalue + 1 and i < Z.shape[0]-edgevalue-1 and j <= edgevalue: #Bottom side
+        elif i > edgevalue+1 and i < Z.shape[0]-edgevalue-2 and j <= edgevalue+1: #Bottom side
           background[i,j] = np.nanmean(np.nanmean(Z[i-bgrange:i+bgrange+1,0:j+bgrange+1]));
-        elif i >= edgevalue + 1 and i < Z.shape[0]-edgevalue-1 and j >= Z.shape[1]-edgevalue-1: #Top side
+        elif i > edgevalue+1 and i < Z.shape[0]-edgevalue-2 and j >= Z.shape[1]-edgevalue-2: #Top side
           background[i,j] = np.nanmean(np.nanmean(Z[i-bgrange:i+bgrange+1,j-bgrange:Z.shape[1]+1]));
 
     #Make sure non-existent values in background are NaN
