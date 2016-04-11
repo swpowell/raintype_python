@@ -1,12 +1,12 @@
 ## *****Rain-type Classification code of Powell et al. (2016, JTECH): Driver code in python*****#
 #Author: Scott Powell and Stacy Brodzik, University of Washington
-#Date: March 4, 2016
+#Date: April 11, 2016
 #Description: This is the driver code for the updated version of Steiner et al. (1995)
 #   convective/stratiform classification code for use with Cartesian gridded datasets. Adds new
 #   categories for echoes of uncertain rain-type near convective cores and correctly identifies
 #   isolated, often shallow, convection as convective instead of stratiform. For details, see
 #   Powell, S.W., R.A. Houze, JR., and S.R. Brodzik, 2016: Rainfall-type categorization of radar
-#   echoes using polar coordinate reflectivity data. J. Atmos. Oceanic Technol.
+#   echoes using polar coordinate reflectivity data, J. Atmos. Oceanic Technol., 17, 523-538.
 #   The variables listed in the left column immediately below are those in the user-input
 #   parameters farther below. The variables listed in the right column below are the
 #   corresponding variable names in Table 1 of Powell et al. (2016).
@@ -103,8 +103,8 @@ fileDirOut = '/home/disk/anvil2/spowell/Raintype_Distribute/python/Cartesian/out
 ## Information about output
 title = 'Rain type classification of DYNAMO SPolKa radar data';
 institution = 'University of Washington';
-source = 'Code used /home/disk/shear2/brodzik/python/raintype/runraintype.py';
-references = 'http://www.atmos.washington.edu/MG/PDFs/JTECH16_Powell-etal_RainCat_REVISED2.pdf';
+source = 'Code used /home/disk/anvil2/spowell/Raintype_Distribute/python/Cartesian/runraintype.py';
+references = 'http://www.atmos.uw.edu/MG/PDFs/JTECH16_Powell-etal_RainCat.pdf';
 comment = 'Based on 2.5km level of interpolated reflectivity data';
 
 ## *****************  END USER INPUT PARAMETERS *****************

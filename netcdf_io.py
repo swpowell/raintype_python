@@ -3,10 +3,6 @@ import numpy as np
 import time as tm
 import datetime as dt
 
-#def read():
-
-#def readZeb():
-
 def writeBasicNetcdf(ncname,NO_SFC_ECHO,STRATIFORM,CONVECTIVE,UNCERTAIN,ISO_CONV_CORE,ISO_CONV_FRINGE,WEAK_ECHO,   \
                      deepcoszero,shallowconvmin,minZdiff,truncZconvthres,dBZformaxconvradius,weakechothres,        \
                      backgrndradius,maxConvRadius,minsize,startslope,maxsize,title,institution,source,references,  \
