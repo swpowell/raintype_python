@@ -37,20 +37,24 @@ import logging as log
 ## ***************** ALGORITHM USER-INPUT PARAMETERS *****************
 
 ## reflectivity info
-refl_name = 'AZ';
+refl_name = 'REFL';
 refl_level = 5;
 refl_mv = -9999;   #Missing value of reflectivity field.  Only used if not in input file
 refl_dx = 2;       #Grid spacing of Cartesian reflectivity data.  Only used if not in input file
 
+## radar info - only use this if data not contained in input file
+radar_lat = -0.630447;
+radar_lon = 73.10277;
+
 ## preferred netcdf output format - one of 'basic', 'cf' (CF compliant) or 'zeb' (Zebra compliant)
 ## NOTE: if the input file does not contain the fields required for the preferred output format
 ## then the output format will be set to 'basic'; if you are unsure, leave this set to 'cf'
-outputFormat = 'basic'
+outputFormat = 'cf'
 
 ## variables required in input file for cf or zebra compliant output; these names may be spelled
 ## slightly differently from time to time so we include them as inputs
 ## ********** DO NOT REMOVE ANY ELEMENTS OR CHANGE THE ORDER OF THE ARRAYS **********
-var_cf = ['time','x0','y0','grid_mapping_0']
+var_cf = ['time','x0','y0','lat0','lon0','grid_mapping_0']
 var_zeb = ['base_time','time_offset','lat','lon','alt','x_spacing','y_spacing','z_spacing']
 
 ## rain type input parameters
@@ -96,14 +100,13 @@ startslope = 50;          #(in km^2)
 maxsize = 2000;           #(in km^2)
 
 ## Information about where the reflectivity data is located and where outputs should be written.
-###fileDir = '/home/disk/mjo/dynamo/data.server/zebra/moments/sband/sur_2km/20111016/';
-fileDir = '/home/disk/anvil2/spowell/Raintype_Distribute/python/Cartesian/in/Paul/';
-fileDirOut = '/home/disk/anvil2/spowell/Raintype_Distribute/python/Cartesian/out2km/';
+fileDir = '/home/disk/mjo/dynamo/data.server/zebra/QCed/spolka/sur_2km_legacy/20111016/';
+fileDirOut = '/home/disk/mjo/dynamo/data.server/zebra/QCed/spolka/rain_type/sur_2km_legacy/';
 
 ## Information about output
 title = 'Rain type classification of DYNAMO SPolKa radar data';
 institution = 'University of Washington';
-source = 'Code used /home/disk/anvil2/spowell/Raintype_Distribute/python/Cartesian/runraintype.py';
+source = 'Code used https://github.com/swpowell/raintype_python';
 references = 'http://www.atmos.uw.edu/MG/PDFs/JTECH16_Powell-etal_RainCat.pdf';
 comment = 'Based on 2.5km level of interpolated reflectivity data';
 
@@ -181,13 +184,12 @@ for fname in os.listdir(fileDir):
       tim = ncid.variables[var_cf[0]][:]
       x = ncid.variables[var_cf[1]][:]
       y = ncid.variables[var_cf[2]][:]
-      gm = ncid.variables[var_cf[3]][:]
-      #gmAtts = ncid.variables[var_cf[3]]
-      lat_origin = ncid.variables[var_cf[3]].latitude_of_projection_origin
-      lon_origin = ncid.variables[var_cf[3]].longitude_of_projection_origin
-      #print "AFTER ASSIGN gmAtts.longitude_of_projection_origin = {}".format(gmAtts.longitude_of_projection_origin)
-      #print "AFTER ASSIGN lat_origin = {}".format(lat_origin)
-      #print "AFTER ASSIGN lon_origin = {}".format(lon_origin)
+      lat = ncid.variables[var_cf[3]][:]
+      lon = ncid.variables[var_cf[4]][:]
+      gm = ncid.variables[var_cf[5]][:]
+      #gmAtts = ncid.variables[var_cf[5]]
+      lat_origin = ncid.variables[var_cf[5]].latitude_of_projection_origin
+      lon_origin = ncid.variables[var_cf[5]].longitude_of_projection_origin
     else:
       dx = refl_dx
       missing_value = refl_mv
@@ -242,10 +244,6 @@ for fname in os.listdir(fileDir):
     #Convert Z to dBZ
     background = 10*np.log10(background)
 
-    #print "BEFORE RAINTYPE CALC lat_origin = {}".format(lat_origin)
-    #print "BEFORE RAINTYPE CALC lon_origin = {}".format(lon_origin)
-    #print "BEFORE RAINTYPE CALC gmAtts.longitude_of_projection_origin = {}".format(gmAtts.longitude_of_projection_origin)
-    
     #Run convectivecore.
     raintype = alg.convectivecore(background,refl,minZdiff,CS_CORE,ISO_CS_CORE,CONVECTIVE,STRATIFORM,UNCERTAIN,  \
                                   WEAK_ECHO,ISO_CONV_CORE,ISO_CONV_FRINGE,NO_SFC_ECHO,dBZformaxconvradius,       \
@@ -253,18 +251,21 @@ for fname in os.listdir(fileDir):
                                   shallowconvmin,truncZconvthres,dx)
 
     if outputFormat == 'zeb':
-      net.writeZeb(ncname,NO_SFC_ECHO,STRATIFORM,CONVECTIVE,UNCERTAIN,ISO_CONV_CORE,ISO_CONV_FRINGE,WEAK_ECHO,   \
-                   deepcoszero,shallowconvmin,minZdiff,truncZconvthres,dBZformaxconvradius,weakechothres,        \
-                   backgrndradius,maxConvRadius,minsize,startslope,maxsize,title,institution,source,references,  \
-                   comment,bt,toff,lat,lon,alt,dx,dy,raintype)
+      net.writeZebNetcdf(ncname,NO_SFC_ECHO,STRATIFORM,CONVECTIVE,UNCERTAIN,ISO_CONV_CORE, \
+                         ISO_CONV_FRINGE,WEAK_ECHO,deepcoszero,shallowconvmin,minZdiff,    \
+                         truncZconvthres,dBZformaxconvradius,weakechothres,backgrndradius, \
+                         maxConvRadius,minsize,startslope,maxsize,title,institution,source,\
+                         references,comment,bt,toff,lat,lon,alt,dx,dy,dz,raintype)
     elif outputFormat == 'cf':
-      #print "BEFORE WRITE gmAtts.longitude_of_projection_origin = {}".format(gmAtts.longitude_of_projection_origin)
-      net.writeCF(ncname,NO_SFC_ECHO,STRATIFORM,CONVECTIVE,UNCERTAIN,ISO_CONV_CORE,ISO_CONV_FRINGE,WEAK_ECHO,   \
-                  deepcoszero,shallowconvmin,minZdiff,truncZconvthres,dBZformaxconvradius,weakechothres,        \
-                  backgrndradius,maxConvRadius,minsize,startslope,maxsize,title,institution,source,references,  \
-                  comment,tim,x,y,gm,lat_origin,lon_origin,raintype)
+      net.writeCFnetcdf(ncname,NO_SFC_ECHO,STRATIFORM,CONVECTIVE,UNCERTAIN,ISO_CONV_CORE, \
+                        ISO_CONV_FRINGE,WEAK_ECHO,deepcoszero,shallowconvmin,minZdiff,    \
+                        truncZconvthres,dBZformaxconvradius,weakechothres,backgrndradius, \
+                        maxConvRadius,minsize,startslope,maxsize,title,institution,source,\
+                        references,comment,tim,x,y,lat,lon,gm,lat_origin,lon_origin,raintype)
     else:
-      net.writeBasicNetcdf(ncname,NO_SFC_ECHO,STRATIFORM,CONVECTIVE,UNCERTAIN,ISO_CONV_CORE,ISO_CONV_FRINGE,WEAK_ECHO,   \
-                           deepcoszero,shallowconvmin,minZdiff,truncZconvthres,dBZformaxconvradius,weakechothres,        \
-                           backgrndradius,maxConvRadius,minsize,startslope,maxsize,title,institution,source,references,  \
-                           comment,raintype.shape[0],raintype.shape[1],raintype)
+      net.writeBasicNetcdf(ncname,NO_SFC_ECHO,STRATIFORM,CONVECTIVE,UNCERTAIN,ISO_CONV_CORE, \
+                           ISO_CONV_FRINGE,WEAK_ECHO,deepcoszero,shallowconvmin,minZdiff,    \
+                           truncZconvthres,dBZformaxconvradius,weakechothres,backgrndradius, \
+                           maxConvRadius,minsize,startslope,maxsize,title,institution,source,\
+                           references,comment,dx,radar_lat,radar_lon,raintype.shape[0],      \
+                           raintype.shape[1],raintype)
