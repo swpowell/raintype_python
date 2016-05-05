@@ -100,8 +100,8 @@ startslope = 50;          #(in km^2)
 maxsize = 2000;           #(in km^2)
 
 ## Information about where the reflectivity data is located and where outputs should be written.
-fileDir = '/home/disk/mjo/dynamo/data.server/interp/QCed/spolka/sur_1km_cf/20111002/';
-fileDirOut = '/home/disk/mjo/dynamo/data.server/interp/QCed/spolka/rain_type_sur/20111002/';
+fileDir = '/home/disk/anvil2/spowell/Raintype_Distribute/python/Cartesian/in/SPOL/';
+fileDirOut = '/home/disk/anvil2/spowell/Raintype_Distribute/python/Cartesian/out/SPOL/';
 
 ## Information about output
 title = 'Rain type classification of DYNAMO SPolKa radar data';
@@ -196,12 +196,8 @@ for fname in os.listdir(fileDir):
 
     #Read in reflectivity
     refl = np.array(np.squeeze(ncid.variables[refl_name][:,refl_level-1,:,:]))
-
-    #Create missing value mask and turn refl missing values into NaN's
-    mask = np.zeros(refl.shape)
-    mask[(refl == missing_value)] = 1
-    refl[(mask == 1)] = np.nan
-
+    refl[(refl == missing_value)] = np.nan
+    
     #Close input file
     ncid.close()
   
@@ -252,30 +248,24 @@ for fname in os.listdir(fileDir):
     raintype = alg.convectivecore(background,refl,minZdiff,CS_CORE,ISO_CS_CORE,CONVECTIVE,STRATIFORM,UNCERTAIN,  \
                                   WEAK_ECHO,ISO_CONV_CORE,ISO_CONV_FRINGE,NO_SFC_ECHO,dBZformaxconvradius,       \
                                   maxConvRadius,weakechothres,deepcoszero,minsize,maxsize,startslope,            \
-                                  shallowconvmin,truncZconvthres,dx)
+                                  shallowconvmin,truncZconvthres,dx) 
 
-    #Apply missing value mask to raintype array
-    raintype([mask == 1]) = missing_value
-    
-    #Output result
     if outputFormat == 'zeb':
       net.writeZebNetcdf(ncname,NO_SFC_ECHO,STRATIFORM,CONVECTIVE,UNCERTAIN,ISO_CONV_CORE, \
                          ISO_CONV_FRINGE,WEAK_ECHO,deepcoszero,shallowconvmin,minZdiff,    \
                          truncZconvthres,dBZformaxconvradius,weakechothres,backgrndradius, \
                          maxConvRadius,minsize,startslope,maxsize,title,institution,source,\
-                         references,comment,bt,toff,lat,lon,alt,dx,dy,dz,raintype,         \
-                         missing_value)
+                         references,comment,bt,toff,lat,lon,alt,dx,dy,dz,raintype)
     elif outputFormat == 'cf':
       net.writeCFnetcdf(ncname,NO_SFC_ECHO,STRATIFORM,CONVECTIVE,UNCERTAIN,ISO_CONV_CORE, \
                         ISO_CONV_FRINGE,WEAK_ECHO,deepcoszero,shallowconvmin,minZdiff,    \
                         truncZconvthres,dBZformaxconvradius,weakechothres,backgrndradius, \
                         maxConvRadius,minsize,startslope,maxsize,title,institution,source,\
-                        references,comment,tim,x,y,lat,lon,gm,lat_origin,lon_origin,      \
-                        raintype,missing_value)
+                        references,comment,tim,x,y,lat,lon,gm,lat_origin,lon_origin,raintype)
     else:
       net.writeBasicNetcdf(ncname,NO_SFC_ECHO,STRATIFORM,CONVECTIVE,UNCERTAIN,ISO_CONV_CORE, \
                            ISO_CONV_FRINGE,WEAK_ECHO,deepcoszero,shallowconvmin,minZdiff,    \
                            truncZconvthres,dBZformaxconvradius,weakechothres,backgrndradius, \
                            maxConvRadius,minsize,startslope,maxsize,title,institution,source,\
                            references,comment,dx,radar_lat,radar_lon,raintype.shape[0],      \
-                           raintype.shape[1],raintype,missing_value)
+                           raintype.shape[1],raintype)

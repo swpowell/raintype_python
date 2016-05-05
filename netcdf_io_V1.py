@@ -7,8 +7,7 @@ def writeBasicNetcdf(ncname,NO_SFC_ECHO,STRATIFORM,CONVECTIVE,UNCERTAIN,ISO_CONV
                      ISO_CONV_FRINGE,WEAK_ECHO,deepcoszero,shallowconvmin,minZdiff,    \
                      truncZconvthres,dBZformaxconvradius,weakechothres,backgrndradius, \
                      maxConvRadius,minsize,startslope,maxsize,title,institution,source,\
-                     references,comment,dx,radar_lat,radar_lon,xdim,ydim,raintype,     \
-                     missing_value):
+                     references,comment,dx,radar_lat,radar_lon,xdim,ydim,raintype):
 
     # get current time
     currentTime = tm.strftime("%m/%d/%Y %H:%M:%S");
@@ -35,7 +34,7 @@ def writeBasicNetcdf(ncname,NO_SFC_ECHO,STRATIFORM,CONVECTIVE,UNCERTAIN,ISO_CONV
     alVar = ncid.createVariable('rt_A_low',np.float32,zlib=True )
     amVar = ncid.createVariable('rt_A_med',np.float32,zlib=True )
     ahVar = ncid.createVariable('rt_A_high',np.float32,zlib=True )
-    rt = ncid.createVariable('rain_type',np.int32,('time','y','x'),zlib=True,fill_value=missing_value )
+    rt = ncid.createVariable('rain_type',np.int32,('time','y','x'),zlib=True )
 
     # create variable attributes
 
@@ -140,7 +139,7 @@ def writeCFnetcdf(ncname,NO_SFC_ECHO,STRATIFORM,CONVECTIVE,UNCERTAIN,ISO_CONV_CO
                   truncZconvthres,dBZformaxconvradius,weakechothres,backgrndradius, \
                   maxConvRadius,minsize,startslope,maxsize,title,institution,source,\
                   references,comment,timeVal,xVal,yVal,latVal,lonVal,gmVal,         \
-                  lat_origin,lon_origin,raintype,missing_value):
+                  lat_origin,lon_origin,raintype):
 
     # get current time
     currentTime = tm.strftime("%m/%d/%Y %H:%M:%S");
@@ -176,7 +175,7 @@ def writeCFnetcdf(ncname,NO_SFC_ECHO,STRATIFORM,CONVECTIVE,UNCERTAIN,ISO_CONV_CO
     alVar = ncid.createVariable('rt_A_low',np.float32)
     amVar = ncid.createVariable('rt_A_med',np.float32)
     ahVar = ncid.createVariable('rt_A_high',np.float32)
-    rt = ncid.createVariable('rain_type',np.int32,('time','y','x'),zlib=True,fill_value=missing_value )
+    rt = ncid.createVariable('rain_type',np.int32,('time','y','x'),zlib=True )
 
     # create variable attributes
     timeVar.standard_name = 'time'
@@ -313,7 +312,7 @@ def writeZebNetcdf(ncname,NO_SFC_ECHO,STRATIFORM,CONVECTIVE,UNCERTAIN,ISO_CONV_C
                    truncZconvthres,dBZformaxconvradius,weakechothres,backgrndradius, \
                    maxConvRadius,minsize,startslope,maxsize,title,institution,source,\
                    references,comment,btVal,toVal,latVal,lonVal,altVal,xspVal,yspVal,\
-                   zspVal,rtVal,missing_value):
+                   zspVal,rtVal):
 
     # get current time
     currentTime = tm.strftime("%m/%d/%Y %H:%M:%S");
@@ -347,7 +346,7 @@ def writeZebNetcdf(ncname,NO_SFC_ECHO,STRATIFORM,CONVECTIVE,UNCERTAIN,ISO_CONV_C
     alVar = ncid.createVariable('rt_A_low',np.float32)
     amVar = ncid.createVariable('rt_A_med',np.float32)
     ahVar = ncid.createVariable('rt_A_high',np.float32)
-    rt = ncid.createVariable('rain_type',np.float32,('time','z','y','x',),fill_value=missing_value )
+    rt = ncid.createVariable('rain_type',np.float32,('time','z','y','x',) )
 
     # create variable attributes
     bt.units = 'seconds since 1970-01-01 00:00:00 +0000'
