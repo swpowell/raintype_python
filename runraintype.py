@@ -101,7 +101,8 @@ maxsize = 2000;           #(in km^2)
 
 ## Information about where the reflectivity data is located and where outputs should be written.
 fileDir = '/home/disk/mjo/dynamo/data.server/interp/QCed/spolka/sur_1km_cf/20111002/';
-fileDirOut = '/home/disk/mjo/dynamo/data.server/interp/QCed/spolka/rain_type_sur/20111002/';
+fileDirOut = '/home/disk/anvil2/spowell/Raintype_Distribute/python/Cartesian/out/SPOL/';
+#fileDirOut = '/home/disk/mjo/dynamo/data.server/interp/QCed/spolka/rain_type_sur/20111002/';
 
 ## Information about output
 title = 'Rain type classification of DYNAMO SPolKa radar data';
@@ -255,7 +256,7 @@ for fname in os.listdir(fileDir):
                                   shallowconvmin,truncZconvthres,dx)
 
     #Apply missing value mask to raintype array
-    raintype([mask == 1]) = missing_value
+    raintype[mask == 1] = missing_value
     
     #Output result
     if outputFormat == 'zeb':
