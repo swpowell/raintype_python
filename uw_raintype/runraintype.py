@@ -179,7 +179,7 @@ for fname in os.listdir(fileDir):
     ncid.close()
 
     #Determine raintype
-    (raintype,types) = rt.raintype(fname, fileDir, refl, refl_missing_val=missing_value, 
+    (rtout,types) = rt.raintype(fname, fileDir, refl, refl_missing_val=missing_value, 
                                    refl_dx=dx, minZdiff=minZdiff, deepcoszero=deepcoszero,
                                    shallowconvmin=shallowconvmin,truncZconvthres=truncZconvthres,
                                    dBZformaxconvradius=dBZformaxconvradius,
@@ -188,20 +188,20 @@ for fname in os.listdir(fileDir):
                                    startslope=startslope, maxsize=maxsize)
     
     #Output result
-    if raintype is not None:
+    if rtout is not None:
       if outputFormat == 'zeb':
         net.writeZebNetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconvthres,
                            dBZformaxconvradius,weakechothres,backgrndradius,maxConvRadius,
                            minsize,startslope,maxsize,title,institution,source,references,
-                           comment,bt,toff,lat,lon,alt,dx,dy,dz,raintype,missing_value)
+                           comment,bt,toff,lat,lon,alt,dx,dy,dz,rtout,missing_value)
       elif outputFormat == 'cf':
         net.writeCFnetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconvthres,
                           dBZformaxconvradius,weakechothres,backgrndradius,maxConvRadius,
                           minsize,startslope,maxsize,title,institution,source,references,
-                          comment,tim,x,y,lat,lon,gm,lat_origin,lon_origin,raintype,missing_value)
+                          comment,tim,x,y,lat,lon,gm,lat_origin,lon_origin,rtout,missing_value)
       else:
         net.writeBasicNetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconvthres,
                              dBZformaxconvradius,weakechothres,backgrndradius,maxConvRadius,
                              minsize,startslope,maxsize,title,institution,source,references,
-                             comment,dx,radar_lat,radar_lon,raintype.shape[0],raintype.shape[1],
-                             raintype,missing_value)
+                             comment,dx,radar_lat,radar_lon,raintype.shape[0],rtout.shape[1],
+                             rtout,missing_value)

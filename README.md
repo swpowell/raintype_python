@@ -17,23 +17,23 @@ To install, run
 
 The installation will create a build directory and copy the code to somewhere beneath your ~/.local directory. 
 
-There is a test file and script in subdirectory "example" that you can use to ensure the installation went smoothly. Just go to that subdirectory and run "python -W test.py". Running runraintype.py will do the same thing, and in addition, it will create an NetCDF output file of rain-type classifications for the example file.
+There is a test file and script in subdirectory "example" that you can use to ensure the installation went smoothly. Just go to that subdirectory and run "python -W test.py". If it runs without errors, then it works! Running runraintype.py (python -W runraintype.py) inside the uw_raintype folder will do the same thing, and in addition, it will create an NetCDF output file of rain-type classifications for the example file.
 
-Basic users (particularly those who just want to write out NetCDF output with the raintype classifications) will probably wish to run or copy the code directly from within the uw_raintype subdirectory where the code is downloaded. Inside the directory uw_raintype, there are five .py files. Other than the ALGORITHM USER-INPUT PARAMETER section in runraintype.py, do not alter these files unless you know what you are doing. 
+Basic users (particularly those who just want to write out NetCDF output with the raintype classifications for a bunch of radar reflectivity data) will probably wish to simply run or copy the code directly from within the uw_raintype subdirectory where the code is downloaded. Inside the directory uw_raintype, there are five .py files. Other than the ALGORITHM USER-INPUT PARAMETER section in runraintype.py, do not alter these files unless you know what you are doing. 
 
-The code can be accessed in a python script (or in something like ipython) by including (or entering)
+Alternatively, the module that runs the algorithm can be accessed in a python script (or in something like ipython) by including (or entering)
           from uw_raintype import raintype
-in your code. This could be useful for doing, for example, operational real-time classification. If you do this, you will need to input the appropriate user parameters when you call the function raintype. See raintype.py for the order of entering the parameters when calling this function.
+in your code. This could be useful for doing, for example, operational real-time classification. If you do this, you will need to input the appropriate user parameters when you call the function raintype. See raintype.py for the order of entering the parameters when calling this function, also detailed below.
 
 ----------------------------------------------------------------
 
 Description of files:
 
-runraintype.py: This is the driver/wrapper code. This is the code that should be modified by the user. User input parameters are listed and described at the top of this code. You will alter this code if you wish to simply download the code and run it in the directory where it was downloaded. If you wish to install the code (see above), you may still run the code in its directory OR you can make a call to raintype() with the appropriate user input parameters.
+runraintype.py: This is the driver/wrapper code. This is the code that should be modified by the user. User input parameters are listed and described at the top of this code. You will alter and run this code (only in the ALGORITHM USER-INPUT PARAMETER section) if you are not writing your own code that calls the module raintype. If you wish to import and call the module raintype in your own code (see above), you can make a call to raintype() with the appropriate user input parameters.
 
 raintype.py: Called by runraintype and runs the algorithm. If you choose to import raintype (see above) in your own code and not execute runraintype, then your input parameters must be entered in the following order:
 
-   (raintype,types) = raintype.raintype(fname, fileDir, refl, refl_missing_val=missing_value,
+   (rtout,types) = raintype.raintype(fname, fileDir, refl, refl_missing_val=missing_value,
                                    refl_dx=dx, minZdiff=minZdiff, deepcoszero=deepcoszero,
                                    shallowconvmin=shallowconvmin,truncZconvthres=truncZconvthres,
                                    dBZformaxconvradius=dBZformaxconvradius,
@@ -41,7 +41,7 @@ raintype.py: Called by runraintype and runs the algorithm. If you choose to impo
                                    maxConvRadius=maxConvRadius,minsize=minsize,
                                    startslope=startslope, maxsize=maxsize
 
-in which raintype is the actual classification and types is an object that contains information about what values in raintype correspond to what category. You will also have to read in reflectivity (refl) from fname in your code before calling raintype.
+in which rtout is the actual classification and types is an object that contains information about what values in raintype correspond to what category. You will also have to read in reflectivity (refl) from fname in your code before calling raintype.
 
 rtfunctions.py: Contains a variety of functions for implementing algorithm.
 

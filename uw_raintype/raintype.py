@@ -105,8 +105,8 @@ def raintype(fname, fileDir, refl=None, refl_missing_val=-9999, refl_dx=1, minZd
   #Check inputs
   if refl is None:
     log.info( "No reflectivity provided to raintype module.  Exiting ..." )
-    raintype = None
-    return raintype, types
+    rtout = None
+    return rtout, types
   
   #Create missing value mask and turn refl missing values into NaN's
   mask = np.zeros(refl.shape)
@@ -129,11 +129,11 @@ def raintype(fname, fileDir, refl=None, refl_missing_val=-9999, refl_dx=1, minZd
   background = rtf.ZtoDBZ(background)
 
   #Run convectivecore.
-  raintype = alg.convectivecore(background,refl,minZdiff,types,dBZformaxconvradius,
+  rtout = alg.convectivecore(background,refl,minZdiff,types,dBZformaxconvradius,
                                 maxConvRadius,weakechothres,deepcoszero,minsize,maxsize,
                                 startslope,shallowconvmin,truncZconvthres,refl_dx,maskcell)
 
   #Apply missing value mask to raintype array
-  raintype[mask == 1] = refl_missing_val
+  rtout[mask == 1] = refl_missing_val
 
-  return raintype, types
+  return rtout, types

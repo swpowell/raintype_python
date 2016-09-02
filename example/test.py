@@ -27,8 +27,7 @@ ncid = nc4.Dataset(str(fileDir + fname),'r')
 
 refl = np.array(np.squeeze(ncid.variables[refl_name][:,refl_level-1,:,:]))
 
-(raintype,types) =  raintype.raintype(fname, fileDir, refl=refl, refl_missing_val=-9999, refl_dx=1, minZdiff=20,
+(rtout,types) =  raintype.raintype(fname, fileDir, refl=refl, refl_missing_val=-9999, refl_dx=1, minZdiff=20,
                      deepcoszero=40, shallowconvmin=28, truncZconvthres=43, dBZformaxconvradius=46,
                      weakechothres=7, backgrndradius=5, maxConvRadius=10, minsize=8, startslope=50,
                      maxsize=2000)
-
