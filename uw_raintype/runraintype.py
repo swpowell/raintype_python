@@ -85,8 +85,8 @@ var_zeb = ['base_time','time_offset','lat','lon','alt','x_spacing','y_spacing','
 minZdiff = 20; 
 deepcoszero = 40;
 shallowconvmin = 28;
-truncZconvthres = 43;
-dBZformaxconvradius = 46;
+truncZconvthres = 42;
+dBZformaxconvradius = 45;
 weakechothres = 7;
 backgrndradius = 5;       #(in km)
 maxConvRadius = 10;       #(in km)
@@ -96,8 +96,10 @@ maxsize = 2000;           #(in km^2)
 
 ## Information about where the reflectivity data is located and where outputs should be written.
 #fileDir = '/home/disk/mjo/dynamo/data.server/interp/QCed/spolka/sur_1km_cf/20111016/';
-fileDir = '/home/disk/anvil2/spowell/Raintype_Distribute/python/Cartesian/in/'
-fileDirOut = '/home/disk/anvil2/spowell/Raintype_Distribute/python/Cartesian/out/'
+fileDir = '/home/disk/anvil2/spowell/Raintype_Distribute/python/Cartesian/in/20111024/'
+fileDirOut = '/home/disk/anvil2/spowell/Raintype_Distribute/python/Cartesian/out/20111024/'
+#fileDir = '/home/disk/anvil2/spowell/Raintype_Distribute/python/Cartesian/smartr/in/'
+#fileDirOut = '/home/disk/anvil2/spowell/Raintype_Distribute/python/Cartesian/smartr/out/'
 
 ## Information about output
 title = 'Rain type classification of DYNAMO SPolKa radar data';
@@ -113,7 +115,7 @@ log.basicConfig(format='%(levelname)s:%(message)s',level=log.INFO)
 for fname in os.listdir(fileDir):
   if fname.endswith('nc'):
 
-    #log.info( "file = {}".format(fname) )
+    log.info( "file = {}".format(fname) )
   
     #Filename for output
     ncname = str(fileDirOut + 'raintype_' + fname)

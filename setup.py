@@ -4,13 +4,12 @@ UW Rain Type
 
 import os
 import sys
-
-from numpy.distutils.core import setup
+from setuptools import setup
 
 # Pull the header into a variable
 doclines = __doc__.split("\n")
 
-VERSION = '3.1'
+VERSION = '1.0'
 
 # Set variables for setup
 PACKAGES = ['uw_raintype']
@@ -21,12 +20,12 @@ setup(
       version=VERSION,
       url='http://www.atmos.washington.edu/MG/PDFs/JTECH16_Powell-etal_RainCat.pdf',
       author='Scott Powell, Stacy Brodzik',
-      author_email='spowell@atmos.uw.edu',
-      description=doclines[0],
-      license='LICENSE',
+      author_email='spowell@atmos.colostate.edu',
+      description=("Rain-type classification code in Cartesian coordinates, replacing Steiner et al. (1995)."),
+      license='GNU',
       packages=PACKAGES,
       classifiers=["""
-          Development Status :: Beta,
+          Development Status :: V1.0,
           Programming Language :: Python",
           Topic :: Scientific/Engineering
           Topic :: Scientific/Engineering :: Atmospheric Science
