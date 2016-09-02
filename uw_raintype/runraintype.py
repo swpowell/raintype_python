@@ -95,11 +95,8 @@ startslope = 50;          #(in km^2)
 maxsize = 2000;           #(in km^2)
 
 ## Information about where the reflectivity data is located and where outputs should be written.
-#fileDir = '/home/disk/mjo/dynamo/data.server/interp/QCed/spolka/sur_1km_cf/20111016/';
-fileDir = '/home/disk/anvil2/spowell/Raintype_Distribute/python/Cartesian/in/20111024/'
-fileDirOut = '/home/disk/anvil2/spowell/Raintype_Distribute/python/Cartesian/out/20111024/'
-#fileDir = '/home/disk/anvil2/spowell/Raintype_Distribute/python/Cartesian/smartr/in/'
-#fileDirOut = '/home/disk/anvil2/spowell/Raintype_Distribute/python/Cartesian/smartr/out/'
+fileDir = '../example'
+fileDirOut = './'
 
 ## Information about output
 title = 'Rain type classification of DYNAMO SPolKa radar data';
