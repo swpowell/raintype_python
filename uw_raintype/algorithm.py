@@ -5,7 +5,7 @@ def convectivecore(background,refl,minZdiff,types,dBZformaxconvradius,
                    startslope,shallowconvmin,truncZconvthres,dx,maskcell):
    
   import numpy as np
-  import rtfunctions as rt
+  from uw_raintype import rtfunctions as rt
   from scipy import signal as sg
 
   #Allocate isCore, a matrix that contains whether a grid point contains a convective core

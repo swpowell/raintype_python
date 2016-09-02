@@ -5,8 +5,8 @@ from __future__ import division  #For python2 only. Alternatively, run interpret
 import netCDF4 as nc4
 import numpy as np
 import os
-import raintype as rt
-import netcdf_io as net
+from uw_raintype import raintype as rt
+from uw_raintype import netcdf_io as net
 import logging as log  
 
 """

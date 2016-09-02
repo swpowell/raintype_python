@@ -12,9 +12,9 @@ rev 3 5/2/2016 - added missing value mask to match input reflectivity file
 from __future__ import division  #For python2 only. Alternatively, run interpreter with -Q flag. 
 import numpy as np
 import os
-import algorithm as alg
-import rtfunctions as rtf
-import netcdf_io as net
+from uw_raintype import algorithm as alg
+from uw_raintype import rtfunctions as rtf
+from uw_raintype import netcdf_io as net
 import logging as log
 
 def raintype(fname, fileDir, refl=None, refl_missing_val=-9999, refl_dx=1, minZdiff=20, 

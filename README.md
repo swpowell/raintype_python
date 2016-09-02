@@ -11,15 +11,15 @@ Setting up and using the code:
 
 Before you do anything, you'll need to make sure that you have numpy, scipy, and netcdf4-python (plus dependencies) installed on your machine. netcdf4-python can be found, as of 2016, here: https://github.com/Unidata/netcdf4-python
 
-Basic users (particularly those who just want to write out NetCDF output with the raintype classifications) will probably wish to run or copy the code directly from within the uw_raintype subdirectory where the code is downloaded. Inside the directory uw_raintype, there are five .py files. Other than the ALGORITHM USER-INPUT PARAMETER section in runraintype.py, do not alter these files unless you know what you are doing. 
-
-For more advanced users who wish to execute the code inline inside another python code, to install, run
+To install, run
 
 >> python setup.py install --user
 
-There is a test file and script in subdirectory "example" that you can use to ensure the installation went smoothly. Just go to that subdirectory and run "python -W test.py".
+There is a test file and script in subdirectory "example" that you can use to ensure the installation went smoothly. Just go to that subdirectory and run "python -W test.py". The installation will create a build directory and copy the code to somewhere beneath your ~/.local directory. 
 
-The installation will create a build directory and copy the code to somewhere beneath your ~/.local directory. The code can be accessed in a python script (or in something like ipython) by including (or entering)
+Basic users (particularly those who just want to write out NetCDF output with the raintype classifications) will probably wish to run or copy the code directly from within the uw_raintype subdirectory where the code is downloaded. Inside the directory uw_raintype, there are five .py files. Other than the ALGORITHM USER-INPUT PARAMETER section in runraintype.py, do not alter these files unless you know what you are doing. 
+
+The code can be accessed in a python script (or in something like ipython) by including (or entering)
           from uw_raintype import raintype
 in your code. If you do this, you will need to input the appropriate user parameters when you call the function raintype. See raintype.py for the order of entering the parameters when calling this function.
 
