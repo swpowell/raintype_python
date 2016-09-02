@@ -15,13 +15,15 @@ To install, run
 
 >> python setup.py install --user
 
-There is a test file and script in subdirectory "example" that you can use to ensure the installation went smoothly. Just go to that subdirectory and run "python -W test.py". The installation will create a build directory and copy the code to somewhere beneath your ~/.local directory. 
+The installation will create a build directory and copy the code to somewhere beneath your ~/.local directory. 
+
+There is a test file and script in subdirectory "example" that you can use to ensure the installation went smoothly. Just go to that subdirectory and run "python -W test.py". Running runraintype.py will do the same thing, and in addition, it will create an NetCDF output file of rain-type classifications for the example file.
 
 Basic users (particularly those who just want to write out NetCDF output with the raintype classifications) will probably wish to run or copy the code directly from within the uw_raintype subdirectory where the code is downloaded. Inside the directory uw_raintype, there are five .py files. Other than the ALGORITHM USER-INPUT PARAMETER section in runraintype.py, do not alter these files unless you know what you are doing. 
 
 The code can be accessed in a python script (or in something like ipython) by including (or entering)
           from uw_raintype import raintype
-in your code. If you do this, you will need to input the appropriate user parameters when you call the function raintype. See raintype.py for the order of entering the parameters when calling this function.
+in your code. This could be useful for doing, for example, operational real-time classification. If you do this, you will need to input the appropriate user parameters when you call the function raintype. See raintype.py for the order of entering the parameters when calling this function.
 
 ----------------------------------------------------------------
 
