@@ -1,4 +1,4 @@
-# raintype_python V1.0
+# raintype_python V1.0 (for Cartesian grids)
 
 Authors: Scott W. Powell and Stacy Brodzik, University of Washington
 Date: September 2016
@@ -17,7 +17,15 @@ To install, run
 
 The installation will create a build directory and copy the code to somewhere beneath your ~/.local directory. 
 
-There is a test file and script in subdirectory "example" that you can use to ensure the installation went smoothly. Just go to that subdirectory and run "python -W test.py". If it runs without errors, then it works! Running runraintype.py (python -W runraintype.py) inside the uw_raintype folder will do the same thing, and in addition, it will create an NetCDF output file of rain-type classifications for the example file.
+There is a test file and script in subdirectory "example" that you can use to ensure the installation went smoothly. Just go to that subdirectory and run 
+
+>> python -W ignore test.py 
+
+If it runs without errors, then it works! Running runraintype.py by going to the uw_raintype folder and entering 
+
+>> python -W ignore runraintype.py
+
+will do the same thing, and in addition, it will create an NetCDF output file of rain-type classifications for the example file.
 
 Basic users (particularly those who just want to write out NetCDF output with the raintype classifications for a bunch of radar reflectivity data) will probably wish to simply run or copy the code directly from within the uw_raintype subdirectory where the code is downloaded. Inside the directory uw_raintype, there are five .py files. Other than the ALGORITHM USER-INPUT PARAMETER section in runraintype.py, do not alter these files unless you know what you are doing. 
 
@@ -35,7 +43,7 @@ raintype.py: Called by runraintype and runs the algorithm. If you choose to impo
 
    (rtout,types) = raintype.raintype(fname, fileDir, refl, refl_missing_val=missing_value,
                                    refl_dx=dx, minZdiff=minZdiff, deepcoszero=deepcoszero,
-                                   shallowconvmin=shallowconvmin,truncZconvthres=truncZconvthres,
+                                  shallowconvmin=shallowconvmin,truncZconvthres=truncZconvthres,
                                    dBZformaxconvradius=dBZformaxconvradius,
                                    weakechothres=weakechothres, backgrndradius=backgrndradius,
                                    maxConvRadius=maxConvRadius,minsize=minsize,
