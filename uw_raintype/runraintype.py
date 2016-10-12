@@ -46,7 +46,7 @@ The variables listed in the left column immediately below are those in the user-
   weakechothres = minimum dBZ for classification as not weak echo; don't change this without a good 
      reason.  7 is about as low as we can go without getting into Bragg scatter territory.
   backgrndradius (km) = radius within which background reflectivity is computed
-  maxConvRadius (km) = maximum radius around convective core for possible uncertain classification; 
+  maxConvRadius (km) = maximum radius around convective core for possible mixed classification; 
      Powell et al. (2016) tested 5, and showed that too much convection was included 
      in stratiform region.  Don't lower this number without a good reason.
   minsize (km^2) = minimum areal coverage a contiguous echo can cover and still receive an ISO_CONV
@@ -67,7 +67,7 @@ refl_missing_val = -9999;   #Missing value of reflectivity field.  Only used if 
 refl_dx = 1;       #Grid spacing of Cartesian reflectivity data.  Only used if not in input file
 
 ## radar info - only use this if data not contained in input file
-radar_lat = -28.113132;
+radar_lat = 28.113132;
 radar_lon = -80.654104;
 
 ## preferred netcdf output format - one of 'basic', 'cf' (CF compliant) or 'zeb' (Zebra compliant)

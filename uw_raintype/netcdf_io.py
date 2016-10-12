@@ -63,7 +63,7 @@ def writeBasicNetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconv
     # R_conv
     rcVar.units = 'km'
     rcVar.long_name = 'max_conv_radius'
-    rcVar.comment = 'maximum radius around convective core for possible uncertain classification'
+    rcVar.comment = 'maximum radius around convective core for possible mixed classification'
 
     # Z_conv
     zcVar.units = 'dBZ'
@@ -99,9 +99,9 @@ def writeBasicNetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconv
     rt.units = 'none'
     rt.long_name = 'rain_type_classification'
     rt.flag_values = np.array((types['NO_SFC_ECHO'],types['STRATIFORM'],types['CONVECTIVE'],
-                               types['UNCERTAIN'],types['ISO_CONV_CORE'],types['ISO_CONV_FRINGE'],
+                               types['MIXED'],types['ISO_CONV_CORE'],types['ISO_CONV_FRINGE'],
                                types['WEAK_ECHO']))
-    rt.flag_meanings = np.array(['NO_SFC_ECHO   STRATIFORM   CONVECTIVE   UNCERTAIN   ISO_CONV_CORE   ISO_CONV_FRINGE   WEAK_ECHO'])
+    rt.flag_meanings = np.array(['NO_SFC_ECHO   STRATIFORM   CONVECTIVE   MIXED   ISO_CONV_CORE   ISO_CONV_FRINGE   WEAK_ECHO'])
     rt.ancillary_variables = 'rt_Z_th rt_R_bg rt_a rt_b rt_R_conv rt_Z_conv rt_Z_weak rt_Z_shallow rt_A_low rt_A_med rt_A_high'
 
     # create global attributes
@@ -229,7 +229,7 @@ def writeCFnetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconvthr
     # R_conv
     rcVar.units = 'km'
     rcVar.long_name = 'max_conv_radius'
-    rcVar.comment = 'maximum radius around convective core for possible uncertain classification'
+    rcVar.comment = 'maximum radius around convective core for possible mixed classification'
 
     # Z_conv
     zcVar.units = 'dBZ'
@@ -270,9 +270,9 @@ def writeCFnetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconvthr
     rt.coordinates = 'lon lat'
     rt.grid_mapping = 'grid_mapping'
     rt.flag_values = np.array((types['NO_SFC_ECHO'],types['STRATIFORM'],types['CONVECTIVE'],
-                               types['UNCERTAIN'],types['ISO_CONV_CORE'],types['ISO_CONV_FRINGE'],
+                               types['MIXED'],types['ISO_CONV_CORE'],types['ISO_CONV_FRINGE'],
                                types['WEAK_ECHO']))
-    rt.flag_meanings = np.array(['NO_SFC_ECHO   STRATIFORM   CONVECTIVE   UNCERTAIN   ISO_CONV_CORE   ISO_CONV_FRINGE   WEAK_ECHO'])
+    rt.flag_meanings = np.array(['NO_SFC_ECHO   STRATIFORM   CONVECTIVE   MIXED   ISO_CONV_CORE   ISO_CONV_FRINGE   WEAK_ECHO'])
     rt.ancillary_variables = 'rt_Z_th rt_R_bg rt_a rt_b rt_R_conv rt_Z_conv rt_Z_weak rt_Z_shallow rt_A_low rt_A_med rt_A_high'
 
     # create global attributes
@@ -379,7 +379,7 @@ def writeZebNetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconvth
     # R_conv
     rcVar.units = 'km'
     rcVar.long_name = 'max_conv_radius'
-    rcVar.comment = 'maximum radius around convective core for possible uncertain classification'
+    rcVar.comment = 'maximum radius around convective core for possible mixed classification'
 
     # Z_conv
     zcVar.units = 'dBZ'
@@ -417,9 +417,9 @@ def writeZebNetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconvth
     rt.units = 'none'
     rt.long_name = 'rain_type_classification'
     rt.flag_values = np.array((types['NO_SFC_ECHO'],types['STRATIFORM'],types['CONVECTIVE'],
-                               types['UNCERTAIN'],types['ISO_CONV_CORE'],types['ISO_CONV_FRINGE'],
+                               types['MIXED'],types['ISO_CONV_CORE'],types['ISO_CONV_FRINGE'],
                                types['WEAK_ECHO']))
-    rt.flag_meanings = np.array(['NO_SFC_ECHO   STRATIFORM   CONVECTIVE   UNCERTAIN   ISO_CONV_CORE   ISO_CONV_FRINGE   WEAK_ECHO'])
+    rt.flag_meanings = np.array(['NO_SFC_ECHO   STRATIFORM   CONVECTIVE   MIXED   ISO_CONV_CORE   ISO_CONV_FRINGE   WEAK_ECHO'])
     rt.ancillary_variables = 'rt_Z_th rt_R_bg rt_a rt_b rt_R_conv rt_Z_conv rt_Z_weak rt_Z_shallow rt_A_low rt_A_med rt_A_high'
 
     # create global attributes
