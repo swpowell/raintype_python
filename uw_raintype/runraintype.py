@@ -61,14 +61,14 @@ The variables listed in the left column immediately below are those in the user-
 ## ***************** ALGORITHM USER-INPUT PARAMETERS *****************
 
 ## reflectivity info
-refl_name = 'REFL';
-refl_level = 5;
+refl_name = 'REF';
+refl_level = 4;
 refl_missing_val = -9999;   #Missing value of reflectivity field.  Only used if not in input file
 refl_dx = 1;       #Grid spacing of Cartesian reflectivity data.  Only used if not in input file
 
 ## radar info - only use this if data not contained in input file
-radar_lat = -0.630447;
-radar_lon = 73.10277;
+radar_lat = -28.113132;
+radar_lon = -80.654104;
 
 ## preferred netcdf output format - one of 'basic', 'cf' (CF compliant) or 'zeb' (Zebra compliant)
 ## NOTE: if the input file does not contain the fields required for the preferred output format
@@ -94,9 +94,9 @@ minsize = 8;              #(in km^2)
 startslope = 50;          #(in km^2)
 maxsize = 2000;           #(in km^2)
 
-## Information about where the reflectivity data is located and where outputs should be written.
-fileDir = '../example/'
-fileDirOut = './'
+## Information about where the reflectivity data is located and where outputs should be written. Make sure your directory names end with a /.
+fileDir = '/local-scratch/Matthew/KMLB/interp/20161006/'
+fileDirOut = '/local-scratch/Matthew/KMLB/raintype/'
 
 ## Information about output
 title = 'Rain type classification of DYNAMO SPolKa radar data';
