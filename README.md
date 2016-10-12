@@ -9,7 +9,7 @@ This is the rainfall type categorization (formerly known as convective/stratifor
 
 Setting up and using the code:
 
-Before you do anything, you'll need to make sure that you have numpy, scipy, and netcdf4-python (plus dependencies) installed on your machine. netcdf4-python can be found, as of 2016, here: https://github.com/Unidata/netcdf4-python
+Before you do anything, you'll need to make sure that you have setuptools, numpy, scipy, and netcdf4-python (plus dependencies) installed on your machine. netcdf4-python can be found, as of 2016, here: https://github.com/Unidata/netcdf4-python
 
 To install, run
 
