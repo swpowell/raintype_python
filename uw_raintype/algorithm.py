@@ -40,15 +40,15 @@ def convectivecore(background,refl,minZdiff,types,dBZformaxconvradius,
   convsfmat[(isCore == types['ISO_CS_CORE'])] = types['ISO_CONV_CORE']
   convsfmat[(isCore == 0)] = types['WEAK_ECHO']
   convsfmat[(convsfmat == 10)] = types['STRATIFORM']
-  convsfmat[(np.isnan(refl) == True)] = types['NO_SFC_ECHO']
+  convsfmat[(np.isnan(refl) == True)] = types['NO_ECHO']
   convsfmat[(refl < weakechothres)] = types['WEAK_ECHO']
 
-  #Now assign MIXED radius to each core. Currently assumes all echoes within 
-  #maxConvRadius - 4 km are MIXED classification. Stronger echoes have larger 
-  #mixed radius. Mixed radii of 6-10 km appear to be supported by algorithm 
+  #Now assign UNCERTAIN radius to each core. Currently assumes all echoes within 
+  #maxConvRadius - 4 km are UNCERTAIN classification. Stronger echoes have larger 
+  #uncertain radius. Uncertain radii of 6-10 km appear to be supported by algorithm 
   #testing on WRF output as seen in Powell et al. (2016). 
 
-  #Compute what the mixed radius is as a function of echo intensity.
+  #Compute what the uncertain radius is as a function of echo intensity.
   convRadiuskm = np.empty(refl.shape)
   convRadiuskm[:] = np.nan
   convRadiuskm[(background <= dBZformaxconvradius - 15 )] = maxConvRadius - 4
@@ -57,7 +57,7 @@ def convectivecore(background,refl,minZdiff,types,dBZformaxconvradius,
   convRadiuskm[(background > dBZformaxconvradius - 5 )] = maxConvRadius - 1
   convRadiuskm[(background >= dBZformaxconvradius)] = maxConvRadius
 
-  ##Assign MIXED classification to pixels near convective cores.
+  ##Assign UNCERTAIN classification to pixels near convective cores.
 
   #Find 2D indices of convective cores.
   (I,J) = (isCore==types['CS_CORE']).nonzero()
@@ -128,18 +128,18 @@ def convectivecore(background,refl,minZdiff,types,dBZformaxconvradius,
     maskind = np.add(maskind,dummy)
 
   #At this point, anything that isn't STRATIFORM is either CONVECTIVE, WEAK ECHO, or
-  #ISOLATED CONVECTIVE.  Make sure none of these echoes get classified as MIXED.
+  #ISOLATED CONVECTIVE.  Make sure none of these echoes get classified as UNCERTAIN.
   maskind[convsfmat != types['STRATIFORM']] = 0
 
-  #Any point that was masked at least once is an echo of mixed classification.
-  convsfmat[maskind!=0] = types['MIXED']
+  #Any point that was masked at least once is an echo of uncertain classification.
+  convsfmat[maskind!=0] = types['UNCERTAIN']
 
   #Change original convective cores back to convective.
   convsfmat[isCore == types['CS_CORE']] = types['CONVECTIVE']
   convsfmat[isCore == types['ISO_CS_CORE']] = types['ISO_CONV_CORE']
 
-  #If there is no data, classify as NO SURFACE ECHO.
-  convsfmat[np.isnan(refl)==1] = types['NO_SFC_ECHO']
+  #If there is no data, classify as NO ECHO.
+  convsfmat[np.isnan(refl)==1] = types['NO_ECHO']
   
   #Classify WEAK_ECHO
   convsfmat[refl < weakechothres] = types['WEAK_ECHO']

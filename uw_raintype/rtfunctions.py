@@ -1,5 +1,6 @@
 from __future__ import division     #For python2 users only.
 import numpy as np
+import math
 
 def ZtoDBZ(z):
   return 10*np.log10(z)
@@ -139,3 +140,29 @@ def makedBZcluster(refl,isCore,convsfmat,weakechothres,minsize,maxsize,startslop
     isCore[refl >= truncZconvthres] = types['CS_CORE']
 
   return (convsfmat,isCore)
+
+
+def radial_distance_mask(min_radius, max_radius, xdim, ydim, x_spacing, y_spacing):
+
+    """
+    Description: Creates a radar coverage mask for a square grid
+
+    Inputs:
+
+    Outputs:
+
+    """
+    mask = np.zeros(shape=(ydim,xdim))
+
+    center_y = int(math.floor(ydim/2.)) - 0.5
+    center_x = int(math.floor(xdim/2.)) - 0.5
+      
+    for j in range(0,ydim):
+        for i in range(0,xdim):
+            y_range_sq = math.pow( ((center_y-j)*y_spacing), 2 )
+            x_range_sq = math.pow( ((center_x-i)*x_spacing), 2 )
+            dist = math.sqrt(x_range_sq+y_range_sq)
+            if dist < max_radius and dist > min_radius:
+                mask[j,i] = 1
+
+    return mask

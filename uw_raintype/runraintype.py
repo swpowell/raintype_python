@@ -7,9 +7,14 @@ import numpy as np
 import os
 from uw_raintype import raintype as rt
 from uw_raintype import netcdf_io as net
+from uw_raintype import rtfunctions as rtf
 import logging as log  
 
 """
+This code assumes that the input reflectivity file contains 'refl' in its name.
+The output ncfile will replace the 'refl' with 'raintype' and leave the rest of the 
+   filename the same.
+
 The variables listed in the left column immediately below are those in the user-input
   parameters farther below. The variables listed in the right column below are the
   corresponding variable names in Table 1 of Powell et al. (2016).
@@ -46,7 +51,7 @@ The variables listed in the left column immediately below are those in the user-
   weakechothres = minimum dBZ for classification as not weak echo; don't change this without a good 
      reason.  7 is about as low as we can go without getting into Bragg scatter territory.
   backgrndradius (km) = radius within which background reflectivity is computed
-  maxConvRadius (km) = maximum radius around convective core for possible mixed classification; 
+  maxConvRadius (km) = maximum radius around convective core for possible uncertain classification; 
      Powell et al. (2016) tested 5, and showed that too much convection was included 
      in stratiform region.  Don't lower this number without a good reason.
   minsize (km^2) = minimum areal coverage a contiguous echo can cover and still receive an ISO_CONV
@@ -61,14 +66,16 @@ The variables listed in the left column immediately below are those in the user-
 ## ***************** ALGORITHM USER-INPUT PARAMETERS *****************
 
 ## reflectivity info
-refl_name = 'REF';
-refl_level = 4;
+refl_name = 'REFL';
+refl_level = 5;
 refl_missing_val = -9999;   #Missing value of reflectivity field.  Only used if not in input file
 refl_dx = 1;       #Grid spacing of Cartesian reflectivity data.  Only used if not in input file
 
 ## radar info - only use this if data not contained in input file
-radar_lat = 28.113132;
-radar_lon = -80.654104;
+radar_lat = -0.630447;
+radar_lon = 73.10277;
+min_radius = 12.5
+max_radius = 147.
 
 ## preferred netcdf output format - one of 'basic', 'cf' (CF compliant) or 'zeb' (Zebra compliant)
 ## NOTE: if the input file does not contain the fields required for the preferred output format
@@ -85,8 +92,8 @@ var_zeb = ['base_time','time_offset','lat','lon','alt','x_spacing','y_spacing','
 minZdiff = 20; 
 deepcoszero = 40;
 shallowconvmin = 28;
-truncZconvthres = 42;
-dBZformaxconvradius = 45;
+truncZconvthres = 38;
+dBZformaxconvradius = truncZconvthres + 5; #Generally between 3 and 5 dBZ greater than truncZconvthres.
 weakechothres = 7;
 backgrndradius = 5;       #(in km)
 maxConvRadius = 10;       #(in km)
@@ -94,15 +101,16 @@ minsize = 8;              #(in km^2)
 startslope = 50;          #(in km^2)
 maxsize = 2000;           #(in km^2)
 
-## Information about where the reflectivity data is located and where outputs should be written. Make sure your directory names end with a /.
-fileDir = '/local-scratch/Matthew/KMLB/interp/20161006/'
-fileDirOut = '/local-scratch/Matthew/KMLB/raintype/'
+## Information about where the reflectivity data is located and where outputs should be written.
+fileDir = '/home/disk/mjo/dynamo/data.server/interp/QCed/spolka/sur_1km_cf/refl/20111016'
+fileDirOut = '/home/disk/mjo/dynamo/data.server/interp/QCed/spolka/rain_type_sur_test/20111016'
 
 ## Information about output
-title = 'Rain type classification of DYNAMO SPolKa radar data';
 institution = 'University of Washington';
-source = 'Code used https://github.com/swpowell/raintype_python';
-references = 'http://www.atmos.uw.edu/MG/PDFs/JTECH16_Powell-etal_RainCat.pdf';
+source = 'SPolKa radar data';
+title = 'Rain type classifications';
+references1 = 'http://www.atmos.uw.edu/MG/PDFs/JTECH16_Powell-etal_RainCat.pdf';
+references2 = 'Code used https://github.com/swpowell/raintype_python';
 comment = 'Based on 2.5km level of interpolated reflectivity data';
 
 ## *****************  END USER INPUT PARAMETERS *****************
@@ -115,10 +123,15 @@ for fname in os.listdir(fileDir):
     log.info( "file = {}".format(fname) )
   
     #Filename for output
-    ncname = str(fileDirOut + 'raintype_' + fname)
+    ncname = str(fileDirOut+'/'+fname.replace('refl','raintype') )
+    
+    #If output dir does not exist, create it
+    dir = os.path.dirname(ncname)
+    if not os.path.exists(dir):
+      os.makedirs(dir)
 
     #Open input file
-    ncid = nc4.Dataset(str(fileDir + fname),'r')
+    ncid = nc4.Dataset(str(fileDir+'/'+fname),'r')
 
     #If check to make sure all vars necessary for output format are present in input file
     if outputFormat == 'zeb':
@@ -180,13 +193,13 @@ for fname in os.listdir(fileDir):
 
     #Determine raintype
     (rtout,types) = rt.raintype(fname, fileDir, refl, refl_missing_val=missing_value, 
-                                   refl_dx=dx, minZdiff=minZdiff, deepcoszero=deepcoszero,
-                                   shallowconvmin=shallowconvmin,truncZconvthres=truncZconvthres,
-                                   dBZformaxconvradius=dBZformaxconvradius,
-                                   weakechothres=weakechothres, backgrndradius=backgrndradius,
-                                   maxConvRadius=maxConvRadius,minsize=minsize,
-                                   startslope=startslope, maxsize=maxsize)
-    
+                                refl_dx=dx, minZdiff=minZdiff, deepcoszero=deepcoszero,
+                                shallowconvmin=shallowconvmin,truncZconvthres=truncZconvthres,
+                                dBZformaxconvradius=dBZformaxconvradius,
+                                weakechothres=weakechothres, backgrndradius=backgrndradius,
+                                maxConvRadius=maxConvRadius,minsize=minsize,
+                                startslope=startslope, maxsize=maxsize)
+
     #Output result
     if rtout is not None:
       if outputFormat == 'zeb':

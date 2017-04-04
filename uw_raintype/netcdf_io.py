@@ -5,8 +5,9 @@ import datetime as dt
 
 def writeBasicNetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconvthres,
                      dBZformaxconvradius,weakechothres,backgrndradius,maxConvRadius,
-                     minsize,startslope,maxsize,title,institution,source,references,
-                     comment,dx,radar_lat,radar_lon,xdim,ydim,raintype,missing_value):
+                     minsize,startslope,maxsize,title,institution,source,references1,
+                     references2,comment,dx,radar_lat,radar_lon,xdim,ydim,raintype,
+                     missing_value):
 
     # get current time
     currentTime = tm.strftime("%m/%d/%Y %H:%M:%S");
@@ -53,17 +54,17 @@ def writeBasicNetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconv
     # a
     aVar.units = 'dBZ'
     aVar.long_name = 'min_Z_diff'
-    aVar.comment = 'factor for comparing echo to background reflectivity; see equation (1) in journal article referenced in "references" general attribute'
+    aVar.comment = 'factor for comparing echo to background reflectivity; see equation (1) in journal article referenced in "references1" general attribute'
 
     # b
     bVar.units = 'dBZ'
     bVar.long_name = 'deep_cos_zero'
-    bVar.comment = 'see equation (1) in journal article referenced in  "references" general attribute'
+    bVar.comment = 'see equation (1) in journal article referenced in  "references1" general attribute'
 
     # R_conv
     rcVar.units = 'km'
     rcVar.long_name = 'max_conv_radius'
-    rcVar.comment = 'maximum radius around convective core for possible mixed classification'
+    rcVar.comment = 'maximum radius around convective core for possible uncertain classification'
 
     # Z_conv
     zcVar.units = 'dBZ'
@@ -98,10 +99,20 @@ def writeBasicNetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconv
     # rain_type
     rt.units = 'none'
     rt.long_name = 'rain_type_classification'
-    rt.flag_values = np.array((types['NO_SFC_ECHO'],types['STRATIFORM'],types['CONVECTIVE'],
-                               types['MIXED'],types['ISO_CONV_CORE'],types['ISO_CONV_FRINGE'],
-                               types['WEAK_ECHO']))
-    rt.flag_meanings = np.array(['NO_SFC_ECHO   STRATIFORM   CONVECTIVE   MIXED   ISO_CONV_CORE   ISO_CONV_FRINGE   WEAK_ECHO'])
+    #rt.flag_values = np.array((types['NO_ECHO'],types['STRATIFORM'],types['CONVECTIVE'],
+    #                           types['UNCERTAIN'],types['ISO_CONV_CORE'],types['ISO_CONV_FRINGE'],
+    #                           types['WEAK_ECHO']))
+    #rt.flag_meanings = np.array(['NO_ECHO   STRATIFORM   CONVECTIVE   UNCERTAIN   ISO_CONV_CORE   ISO_CONV_FRINGE   WEAK_ECHO'])
+    #TRY THIS:
+    #rt.flag_meanings = "NO_ECHO,STRATIFORM,CONVECTIVE,UNCERTAIN,ISO_CONV_CORE,ISO_CONV_FRINGE,WEAK_ECHO"
+    rt.NO_ECHO = types['NO_ECHO']
+    rt.STRATIFORM = types['STRATIFORM']
+    rt.CONVECTIVE = types['CONVECTIVE']
+    rt.UNCERTAIN = types['UNCERTAIN']
+    rt.ISO_CONV_CORE = types['ISO_CONV_CORE']
+    rt.ISO_CONV_FRINGE = types['ISO_CONV_FRINGE']
+    rt.WEAK_ECHO = types['WEAK_ECHO']
+
     rt.ancillary_variables = 'rt_Z_th rt_R_bg rt_a rt_b rt_R_conv rt_Z_conv rt_Z_weak rt_Z_shallow rt_A_low rt_A_med rt_A_high'
 
     # create global attributes
@@ -109,7 +120,8 @@ def writeBasicNetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconv
     ncid.institution = institution
     ncid.history = 'File created ' + currentTime
     ncid.source = source
-    ncid.references = references
+    ncid.references1 = references1
+    ncid.references2 = references2
     ncid.comment = comment
     ncid.radar_lat = radar_lat
     ncid.radar_lon = radar_lon
@@ -135,9 +147,9 @@ def writeBasicNetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconv
 
 def writeCFnetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconvthres,
                   dBZformaxconvradius,weakechothres,backgrndradius,maxConvRadius,
-                  minsize,startslope,maxsize,title,institution,source,references,
-                  comment,timeVal,xVal,yVal,latVal,lonVal,gmVal,lat_origin,lon_origin,
-                  raintype,missing_value):
+                  minsize,startslope,maxsize,title,institution,source,references1,
+                  references2,comment,timeVal,xVal,yVal,latVal,lonVal,gmVal,
+                  lat_origin,lon_origin,raintype,missing_value):
 
     # get current time
     currentTime = tm.strftime("%m/%d/%Y %H:%M:%S");
@@ -219,17 +231,17 @@ def writeCFnetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconvthr
     # a
     aVar.units = 'dBZ'
     aVar.long_name = 'min_Z_diff'
-    aVar.comment = 'factor for comparing echo to background reflectivity; see equation (1) in journal article referenced in "references" general attribute'
+    aVar.comment = 'factor for comparing echo to background reflectivity; see equation (1) in journal article referenced in "references1" general attribute'
 
     # b
     bVar.units = 'dBZ'
     bVar.long_name = 'deep_cos_zero'
-    bVar.comment = 'see equation (1) in journal article referenced in  "references" general attribute'
+    bVar.comment = 'see equation (1) in journal article referenced in  "references1" general attribute'
 
     # R_conv
     rcVar.units = 'km'
     rcVar.long_name = 'max_conv_radius'
-    rcVar.comment = 'maximum radius around convective core for possible mixed classification'
+    rcVar.comment = 'maximum radius around convective core for possible uncertain classification'
 
     # Z_conv
     zcVar.units = 'dBZ'
@@ -269,20 +281,30 @@ def writeCFnetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconvthr
     #rt.grid_mapping = 'azimuthal_equidistant'
     rt.coordinates = 'lon lat'
     rt.grid_mapping = 'grid_mapping'
-    rt.flag_values = np.array((types['NO_SFC_ECHO'],types['STRATIFORM'],types['CONVECTIVE'],
-                               types['MIXED'],types['ISO_CONV_CORE'],types['ISO_CONV_FRINGE'],
-                               types['WEAK_ECHO']))
-    rt.flag_meanings = np.array(['NO_SFC_ECHO   STRATIFORM   CONVECTIVE   MIXED   ISO_CONV_CORE   ISO_CONV_FRINGE   WEAK_ECHO'])
+    #rt.flag_values = np.array((types['NO_ECHO'],types['STRATIFORM'],types['CONVECTIVE'],
+    #                           types['UNCERTAIN'],types['ISO_CONV_CORE'],types['ISO_CONV_FRINGE'],
+    #                           types['WEAK_ECHO']))
+    #rt.flag_meanings = np.array(['NO_ECHO   STRATIFORM   CONVECTIVE   UNCERTAIN   ISO_CONV_CORE   ISO_CONV_FRINGE   WEAK_ECHO'])
+    #TRY THIS:
+    #rt.flag_meanings = "NO_ECHO,STRATIFORM,CONVECTIVE,UNCERTAIN,ISO_CONV_CORE,ISO_CONV_FRINGE,WEAK_ECHO"
+    rt.NO_ECHO = types['NO_ECHO']
+    rt.STRATIFORM = types['STRATIFORM']
+    rt.CONVECTIVE = types['CONVECTIVE']
+    rt.UNCERTAIN = types['UNCERTAIN']
+    rt.ISO_CONV_CORE = types['ISO_CONV_CORE']
+    rt.ISO_CONV_FRINGE = types['ISO_CONV_FRINGE']
+    rt.WEAK_ECHO = types['WEAK_ECHO']
     rt.ancillary_variables = 'rt_Z_th rt_R_bg rt_a rt_b rt_R_conv rt_Z_conv rt_Z_weak rt_Z_shallow rt_A_low rt_A_med rt_A_high'
 
     # create global attributes
     ncid.Conventions = "CF-1.0"
-    ncid.title = title
     ncid.institution = institution
-    ncid.history = 'File created ' + currentTime
     ncid.source = source
-    ncid.references = references
+    ncid.title = title
+    ncid.references1 = references1
+    ncid.references2 = references2
     ncid.comment = comment
+    ncid.history = 'File created ' + currentTime
 
     # write vars to file
     timeVar[:] = timeVal
@@ -309,9 +331,9 @@ def writeCFnetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconvthr
 
 def writeZebNetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconvthres,
                    dBZformaxconvradius,weakechothres,backgrndradius,maxConvRadius,
-                   minsize,startslope,maxsize,title,institution,source,references,
-                   comment,btVal,toVal,latVal,lonVal,altVal,xspVal,yspVal,zspVal,
-                   rtVal,missing_value):
+                   minsize,startslope,maxsize,title,institution,source,references1,
+                   references2,comment,btVal,toVal,latVal,lonVal,altVal,
+                   xspVal,yspVal,zspVal,rtVal,missing_value):
 
     # get current time
     currentTime = tm.strftime("%m/%d/%Y %H:%M:%S");
@@ -369,17 +391,17 @@ def writeZebNetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconvth
     # a
     aVar.units = 'dBZ'
     aVar.long_name = 'min_Z_diff'
-    aVar.comment = 'factor for comparing echo to background reflectivity; see equation (1) in journal article referenced in "references" general attribute'
+    aVar.comment = 'factor for comparing echo to background reflectivity; see equation (1) in journal article referenced in "references1" general attribute'
 
     # b
     bVar.units = 'dBZ'
     bVar.long_name = 'deep_cos_zero'
-    bVar.comment = 'see equation (1) in journal article referenced in  "references" general attribute'
+    bVar.comment = 'see equation (1) in journal article referenced in  "references1" general attribute'
 
     # R_conv
     rcVar.units = 'km'
     rcVar.long_name = 'max_conv_radius'
-    rcVar.comment = 'maximum radius around convective core for possible mixed classification'
+    rcVar.comment = 'maximum radius around convective core for possible uncertain classification'
 
     # Z_conv
     zcVar.units = 'dBZ'
@@ -416,10 +438,19 @@ def writeZebNetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconvth
     # rain_type
     rt.units = 'none'
     rt.long_name = 'rain_type_classification'
-    rt.flag_values = np.array((types['NO_SFC_ECHO'],types['STRATIFORM'],types['CONVECTIVE'],
-                               types['MIXED'],types['ISO_CONV_CORE'],types['ISO_CONV_FRINGE'],
-                               types['WEAK_ECHO']))
-    rt.flag_meanings = np.array(['NO_SFC_ECHO   STRATIFORM   CONVECTIVE   MIXED   ISO_CONV_CORE   ISO_CONV_FRINGE   WEAK_ECHO'])
+    #rt.flag_values = np.array((types['NO_ECHO'],types['STRATIFORM'],types['CONVECTIVE'],
+    #                           types['UNCERTAIN'],types['ISO_CONV_CORE'],types['ISO_CONV_FRINGE'],
+    #                           types['WEAK_ECHO']))
+    #rt.flag_meanings = np.array(['NO_ECHO   STRATIFORM   CONVECTIVE   UNCERTAIN   ISO_CONV_CORE   ISO_CONV_FRINGE   WEAK_ECHO'])
+    #TRY THIS:
+    #rt.flag_meanings = "NO_ECHO,STRATIFORM,CONVECTIVE,UNCERTAIN,ISO_CONV_CORE,ISO_CONV_FRINGE,WEAK_ECHO"
+    rt.NO_ECHO = types['NO_ECHO']
+    rt.STRATIFORM = types['STRATIFORM']
+    rt.CONVECTIVE = types['CONVECTIVE']
+    rt.UNCERTAIN = types['UNCERTAIN']
+    rt.ISO_CONV_CORE = types['ISO_CONV_CORE']
+    rt.ISO_CONV_FRINGE = types['ISO_CONV_FRINGE']
+    rt.WEAK_ECHO = types['WEAK_ECHO']
     rt.ancillary_variables = 'rt_Z_th rt_R_bg rt_a rt_b rt_R_conv rt_Z_conv rt_Z_weak rt_Z_shallow rt_A_low rt_A_med rt_A_high'
 
     # create global attributes
@@ -427,7 +458,8 @@ def writeZebNetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconvth
     ncid.institution = institution
     ncid.history = 'File created ' + currentTime
     ncid.source = source
-    ncid.references = references
+    ncid.references1 = references1
+    ncid.references2 = references2
     ncid.comment = comment
 
     # write vars to file
