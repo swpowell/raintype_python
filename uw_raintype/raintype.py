@@ -93,7 +93,7 @@ def raintype(fname, fileDir, refl=None, refl_missing_val=-9999, refl_dx=1, minZd
   ## *****************  BEGIN OUTPUT CONSTANTS *****************
   
   # Output constants: Do not change these without a good reason!
-  types = {'NO_ECHO':0,'STRATIFORM':1,'CONVECTIVE':2,'UNCERTAIN':3,'ISO_CONV_CORE':4,
+  types = {'NO_ECHO':0,'STRATIFORM':1,'CONVECTIVE':2,'MIXED':3,'ISO_CONV_CORE':4,
            'ISO_CONV_FRINGE':5,'WEAK_ECHO':6,'CS_CORE':8,'ISO_CS_CORE':9}
   #Many users may want to set ISO_CONV_CORE and ISO_CONV_FRINGE to the same value because the core and
   #fringe categories are closely related. Or such users can leave this code as-is and process the output

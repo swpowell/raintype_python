@@ -99,15 +99,15 @@ def writeBasicNetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconv
     rt.units = 'none'
     rt.long_name = 'rain_type_classification'
     #rt.flag_values = np.array((types['NO_ECHO'],types['STRATIFORM'],types['CONVECTIVE'],
-    #                           types['UNCERTAIN'],types['ISO_CONV_CORE'],types['ISO_CONV_FRINGE'],
+    #                           types['MIXED'],types['ISO_CONV_CORE'],types['ISO_CONV_FRINGE'],
     #                           types['WEAK_ECHO']))
-    #rt.flag_meanings = np.array(['NO_ECHO   STRATIFORM   CONVECTIVE   UNCERTAIN   ISO_CONV_CORE   ISO_CONV_FRINGE   WEAK_ECHO'])
+    #rt.flag_meanings = np.array(['NO_ECHO   STRATIFORM   CONVECTIVE   MIXED   ISO_CONV_CORE   ISO_CONV_FRINGE   WEAK_ECHO'])
     #TRY THIS:
-    #rt.flag_meanings = "NO_ECHO,STRATIFORM,CONVECTIVE,UNCERTAIN,ISO_CONV_CORE,ISO_CONV_FRINGE,WEAK_ECHO"
+    #rt.flag_meanings = "NO_ECHO,STRATIFORM,CONVECTIVE,MIXED,ISO_CONV_CORE,ISO_CONV_FRINGE,WEAK_ECHO"
     rt.NO_ECHO = types['NO_ECHO']
     rt.STRATIFORM = types['STRATIFORM']
     rt.CONVECTIVE = types['CONVECTIVE']
-    rt.UNCERTAIN = types['UNCERTAIN']
+    rt.MIXED = types['MIXED']
     rt.ISO_CONV_CORE = types['ISO_CONV_CORE']
     rt.ISO_CONV_FRINGE = types['ISO_CONV_FRINGE']
     rt.WEAK_ECHO = types['WEAK_ECHO']
@@ -281,15 +281,15 @@ def writeCFnetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconvthr
     rt.coordinates = 'lon lat'
     rt.grid_mapping = 'grid_mapping'
     #rt.flag_values = np.array((types['NO_ECHO'],types['STRATIFORM'],types['CONVECTIVE'],
-    #                           types['UNCERTAIN'],types['ISO_CONV_CORE'],types['ISO_CONV_FRINGE'],
+    #                           types['MIXED'],types['ISO_CONV_CORE'],types['ISO_CONV_FRINGE'],
     #                           types['WEAK_ECHO']))
-    #rt.flag_meanings = np.array(['NO_ECHO   STRATIFORM   CONVECTIVE   UNCERTAIN   ISO_CONV_CORE   ISO_CONV_FRINGE   WEAK_ECHO'])
+    #rt.flag_meanings = np.array(['NO_ECHO   STRATIFORM   CONVECTIVE   MIXED   ISO_CONV_CORE   ISO_CONV_FRINGE   WEAK_ECHO'])
     #TRY THIS:
-    #rt.flag_meanings = "NO_ECHO,STRATIFORM,CONVECTIVE,UNCERTAIN,ISO_CONV_CORE,ISO_CONV_FRINGE,WEAK_ECHO"
+    #rt.flag_meanings = "NO_ECHO,STRATIFORM,CONVECTIVE,MIXED,ISO_CONV_CORE,ISO_CONV_FRINGE,WEAK_ECHO"
     rt.NO_ECHO = types['NO_ECHO']
     rt.STRATIFORM = types['STRATIFORM']
     rt.CONVECTIVE = types['CONVECTIVE']
-    rt.UNCERTAIN = types['UNCERTAIN']
+    rt.MIXED = types['MIXED']
     rt.ISO_CONV_CORE = types['ISO_CONV_CORE']
     rt.ISO_CONV_FRINGE = types['ISO_CONV_FRINGE']
     rt.WEAK_ECHO = types['WEAK_ECHO']
@@ -438,15 +438,15 @@ def writeZebNetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconvth
     rt.units = 'none'
     rt.long_name = 'rain_type_classification'
     #rt.flag_values = np.array((types['NO_ECHO'],types['STRATIFORM'],types['CONVECTIVE'],
-    #                           types['UNCERTAIN'],types['ISO_CONV_CORE'],types['ISO_CONV_FRINGE'],
+    #                           types['MIXED'],types['ISO_CONV_CORE'],types['ISO_CONV_FRINGE'],
     #                           types['WEAK_ECHO']))
-    #rt.flag_meanings = np.array(['NO_ECHO   STRATIFORM   CONVECTIVE   UNCERTAIN   ISO_CONV_CORE   ISO_CONV_FRINGE   WEAK_ECHO'])
+    #rt.flag_meanings = np.array(['NO_ECHO   STRATIFORM   CONVECTIVE   MIXED   ISO_CONV_CORE   ISO_CONV_FRINGE   WEAK_ECHO'])
     #TRY THIS:
-    #rt.flag_meanings = "NO_ECHO,STRATIFORM,CONVECTIVE,UNCERTAIN,ISO_CONV_CORE,ISO_CONV_FRINGE,WEAK_ECHO"
+    #rt.flag_meanings = "NO_ECHO,STRATIFORM,CONVECTIVE,MIXED,ISO_CONV_CORE,ISO_CONV_FRINGE,WEAK_ECHO"
     rt.NO_ECHO = types['NO_ECHO']
     rt.STRATIFORM = types['STRATIFORM']
     rt.CONVECTIVE = types['CONVECTIVE']
-    rt.UNCERTAIN = types['UNCERTAIN']
+    rt.MIXED = types['MIXED']
     rt.ISO_CONV_CORE = types['ISO_CONV_CORE']
     rt.ISO_CONV_FRINGE = types['ISO_CONV_FRINGE']
     rt.WEAK_ECHO = types['WEAK_ECHO']
