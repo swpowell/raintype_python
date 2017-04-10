@@ -66,16 +66,16 @@ The variables listed in the left column immediately below are those in the user-
 ## ***************** ALGORITHM USER-INPUT PARAMETERS *****************
 
 ## reflectivity info
-refl_name = 'REFL';
+refl_name = 'REF';
 refl_level = 5;
 refl_missing_val = -9999;   #Missing value of reflectivity field.  Only used if not in input file
 refl_dx = 1;       #Grid spacing of Cartesian reflectivity data.  Only used if not in input file
 
 ## radar info - only use this if data not contained in input file
-radar_lat = -0.630447;
-radar_lon = 73.10277;
-min_radius = 12.5
-max_radius = 147.
+radar_lat = 35;
+radar_lon = 79;
+min_radius = 0 
+max_radius = 1000.
 
 ## preferred netcdf output format - one of 'basic', 'cf' (CF compliant) or 'zeb' (Zebra compliant)
 ## NOTE: if the input file does not contain the fields required for the preferred output format
@@ -102,8 +102,8 @@ startslope = 50;          #(in km^2)
 maxsize = 2000;           #(in km^2)
 
 ## Information about where the reflectivity data is located and where outputs should be written.
-fileDir = '/home/disk/mjo/dynamo/data.server/interp/QCed/spolka/sur_1km_cf/refl/20111016'
-fileDirOut = '/home/disk/mjo/dynamo/data.server/interp/QCed/spolka/rain_type_sur_test/20111016'
+fileDir = '/home/spowell/pontos2/Matthew/KMHX/interp/20161008/'
+fileDirOut = '/home/spowell/pontos2/Matthew/KMHX/interp/20161008/testrtout/'
 
 ## Information about output
 institution = 'University of Washington';
@@ -205,16 +205,16 @@ for fname in os.listdir(fileDir):
       if outputFormat == 'zeb':
         net.writeZebNetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconvthres,
                            dBZformaxconvradius,weakechothres,backgrndradius,maxConvRadius,
-                           minsize,startslope,maxsize,title,institution,source,references,
+                           minsize,startslope,maxsize,title,institution,source,references1,references2,
                            comment,bt,toff,lat,lon,alt,dx,dy,dz,rtout,missing_value)
       elif outputFormat == 'cf':
         net.writeCFnetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconvthres,
                           dBZformaxconvradius,weakechothres,backgrndradius,maxConvRadius,
-                          minsize,startslope,maxsize,title,institution,source,references,
+                          minsize,startslope,maxsize,title,institution,source,references1,references2,
                           comment,tim,x,y,lat,lon,gm,lat_origin,lon_origin,rtout,missing_value)
       else:
         net.writeBasicNetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconvthres,
                              dBZformaxconvradius,weakechothres,backgrndradius,maxConvRadius,
-                             minsize,startslope,maxsize,title,institution,source,references,
-                             comment,dx,radar_lat,radar_lon,raintype.shape[0],rtout.shape[1],
+                             minsize,startslope,maxsize,title,institution,source,references1,references2,
+                             comment,dx,radar_lat,radar_lon,rtout.shape[0],rtout.shape[1],
                              rtout,missing_value)

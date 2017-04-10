@@ -32,7 +32,7 @@ def makeconvmask(maxConvRadius,dx):
   #sizes.
   d = list(range(maxConvRadius-4,maxConvRadius+1))
   #The 4 in above line assumes minimum radius in section above is 6 km.
-  n = [int(np.round(x/dx)) for x in d]
+  n = [np.int16(np.floor(x/dx)) for x in d]
   a = [2*x+1 for x in n]
   maskcell = [np.zeros([x,x]) for x in a]
   for k in range(0,len(d)):
@@ -69,19 +69,20 @@ def get_background_refl(Z,bgmask):
   return background
 
 def chopmask(inmask,topchop,rightchop,btmchop,leftchop):
+  from copy import copy
 
   #Simply trims inmask so it fits data on edge of domain. Returns newmask. 
-  newmask = 0
+  newmask = copy(inmask)
   masksize = inmask.shape[1]
 
   if topchop != 0:
-      newmask = inmask[:,0:masksize-topchop] 
+      newmask = newmask[:,0:masksize-topchop] 
   if rightchop != 0:
-      newmask = inmask[0:masksize-rightchop,:]
+      newmask = newmask[0:masksize-rightchop,:]
   if btmchop != 0:
-      newmask = inmask[:,btmchop:]
+      newmask = newmask[:,btmchop:]
   if leftchop != 0:
-      newmask = inmask[leftchop:,:]
+      newmask = newmask[leftchop:,:]
 
   return newmask
 

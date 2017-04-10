@@ -63,7 +63,7 @@ def convectivecore(background,refl,minZdiff,types,dBZformaxconvradius,
   (I,J) = (isCore==types['CS_CORE']).nonzero()
 
   d = list(range(maxConvRadius-4,maxConvRadius+1))
-  n = [int(np.round(x/dx)) for x in d]
+  n = [np.int16(np.floor(x/dx)) for x in d]
 
   #Allocate mask
   maskind = np.zeros((refl.shape),dtype=np.int)
@@ -72,7 +72,7 @@ def convectivecore(background,refl,minZdiff,types,dBZformaxconvradius,
     dummy = np.zeros((refl.shape),dtype=np.int)
  
     #Make mask for convective cores close to the edge of the domain
-    nlow = n[int(convRadiuskm[I[k],J[k]]-6)]
+    nlow = n[np.int16(convRadiuskm[I[k],J[k]]-6)]
     nhigh = refl.shape[0]-nlow-1      #This assumes domain is a square.
     Ilow = I[k]-nlow
     Ihigh = I[k]+nlow
