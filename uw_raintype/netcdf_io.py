@@ -6,8 +6,7 @@ import datetime as dt
 def writeBasicNetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconvthres,
                      dBZformaxconvradius,weakechothres,backgrndradius,maxConvRadius,
                      minsize,startslope,maxsize,title,institution,source,references1,
-                     references2,comment,dx,radar_lat,radar_lon,xdim,ydim,raintype,
-                     missing_value):
+                     references2,comment,dx,radar_lat,radar_lon,raintype,missing_value):
 
     # get current time
     currentTime = tm.strftime("%m/%d/%Y %H:%M:%S");

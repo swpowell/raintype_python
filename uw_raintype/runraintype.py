@@ -216,5 +216,4 @@ for fname in os.listdir(fileDir):
         net.writeBasicNetcdf(ncname,types,deepcoszero,shallowconvmin,minZdiff,truncZconvthres,
                              dBZformaxconvradius,weakechothres,backgrndradius,maxConvRadius,
                              minsize,startslope,maxsize,title,institution,source,references1,references2,
-                             comment,dx,radar_lat,radar_lon,rtout.shape[0],rtout.shape[1],
-                             rtout,missing_value)
+                             comment,dx,radar_lat,radar_lon,rtout,missing_value)
