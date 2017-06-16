@@ -86,6 +86,20 @@ def chopmask(inmask,topchop,rightchop,btmchop,leftchop):
 
   return newmask
 
+#The following 2 functions are to speed up makedBZcluster. From https://stackoverflow.com/questions/33281957/faster-alternative-to-numpy-where
+
+def compute_M(data):
+  from scipy.sparse import csr_matrix
+  import numpy as np
+  cols = np.arange(data.size)
+  return csr_matrix((cols, (data.ravel(), cols)),
+                    shape=(data.max() + 1, data.size))
+
+def get_indices_sparse(data):
+  import numpy as np
+  M = compute_M(data)
+  return [np.unravel_index(row.data, data.shape) for row in M]
+
 def makedBZcluster(refl,isCore,convsfmat,weakechothres,minsize,maxsize,startslope,
                    shallowconvmin,truncZconvthres,types,dx):
 
@@ -107,10 +121,15 @@ def makedBZcluster(refl,isCore,convsfmat,weakechothres,minsize,maxsize,startslop
   #echoes contains the blob objects, numechoes is just a count of them.
   (echoes,numechoes) = nd.label(rain)
 
-  for i in range(0,numechoes):
-    #Find 2D indices of echo object.
-    (I,J) = (rain*(echoes==i+1)==1).nonzero()
-    
+  #Get 2D indices of echo objects.
+  K = get_indices_sparse(echoes)
+  K = K[1:] #Exclude echoes==0.
+
+  for i in np.arange(len(K)):
+     
+    I = K[i][0]
+    J = K[i][1]
+ 
     #Compute the total areal coverage of the echo object.
     clusterarea = (dx**2)*len(I)    #In km^2
 

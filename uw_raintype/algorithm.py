@@ -60,7 +60,7 @@ def convectivecore(background,refl,minZdiff,types,dBZformaxconvradius,
   ##Assign MIXED classification to pixels near convective cores.
 
   #Find 2D indices of convective cores.
-  (I,J) = (isCore==types['CS_CORE']).nonzero()
+  (I,J) = np.where(isCore==types['CS_CORE'])
 
   d = list(range(maxConvRadius-4,maxConvRadius+1))
   n = [np.int16(np.floor(x/dx)) for x in d]
