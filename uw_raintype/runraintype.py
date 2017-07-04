@@ -102,8 +102,8 @@ startslope = 50;          #(in km^2)
 maxsize = 2000;           #(in km^2)
 
 ## Information about where the reflectivity data is located and where outputs should be written.
-fileDir = '/home/spowell/pontos2/Matthew/KMHX/interp/20161008/'
-fileDirOut = '/home/spowell/pontos2/Matthew/KMHX/interp/20161008/testrtout/'
+fileDir = '../example/'
+fileDirOut = './'
 
 ## Information about output
 institution = 'University of Washington';
