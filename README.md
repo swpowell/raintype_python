@@ -15,7 +15,7 @@ To install, run
 
 >> python setup.py install --user
 
-The installation will create a build directory and copy the code to somewhere beneath your ~/.local directory. 
+The installation will create a build directory and copy the code to somewhere beneath your ~/.local directory. Make sure your installation directory is in your PYTHONPATH, or python will not find the module. 
 
 There is a test file and script in subdirectory "example" that you can use to ensure the installation went smoothly. Just go to that subdirectory and run 
 

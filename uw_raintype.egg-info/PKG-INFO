@@ -1,0 +1,23 @@
+Metadata-Version: 1.1
+Name: uw-raintype
+Version: 1.0
+Summary: Rain-type classification code in Cartesian coordinates, replacing Steiner et al. (1995).
+Home-page: http://www.atmos.washington.edu/MG/PDFs/JTECH16_Powell-etal_RainCat.pdf
+Author: Scott Powell, Stacy Brodzik
+Author-email: spowell@atmos.colostate.edu
+License: GNU
+Description: 
+                  Python tool for rain type classification.
+                  To access, use the following in your analysis code:
+                  from uw_raintype import raintype
+                  
+Platform: UNKNOWN
+Classifier: 
+          Development Status :: V1.0,
+          Programming Language :: Python",
+          Topic :: Scientific/Engineering
+          Topic :: Scientific/Engineering :: Atmospheric Science
+          Operating System :: Unix
+          Operating System :: POSIX :: Linux
+          Operating System :: MacOS
+          
