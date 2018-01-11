@@ -66,7 +66,7 @@ The variables listed in the left column immediately below are those in the user-
 ## ***************** ALGORITHM USER-INPUT PARAMETERS *****************
 
 ## reflectivity info
-refl_name = 'REF';
+refl_name = 'REFL';
 refl_level = 5;
 refl_missing_val = -9999;   #Missing value of reflectivity field.  Only used if not in input file
 refl_dx = 1;       #Grid spacing of Cartesian reflectivity data.  Only used if not in input file
@@ -123,7 +123,7 @@ for fname in os.listdir(fileDir):
     log.info( "file = {}".format(fname) )
   
     #Filename for output
-    ncname = str(fileDirOut+'/'+fname.replace('refl','raintype') )
+    ncname = str(fileDirOut+'/raintype.'+fname)
     
     #If output dir does not exist, create it
     dir = os.path.dirname(ncname)
