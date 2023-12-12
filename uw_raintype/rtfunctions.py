@@ -32,7 +32,7 @@ def makeconvmask(maxConvRadius,dx):
   #sizes.
   d = list(range(maxConvRadius-4,maxConvRadius+1))
   #The 4 in above line assumes minimum radius in section above is 6 km.
-  n = [np.int16(np.floor(x/dx)) for x in d]
+  n = [int(np.floor(x/dx)) for x in d]
   a = [2*x+1 for x in n]
   maskcell = [np.zeros([x,x]) for x in a]
   for k in range(0,len(d)):
@@ -106,7 +106,7 @@ def makedBZcluster(refl,isCore,convsfmat,weakechothres,minsize,maxsize,startslop
   from scipy import ndimage as nd
 
   #Allocate matrix indicating whether rain is occurring.
-  rain = np.zeros((refl.shape),dtype=np.int)
+  rain = np.zeros((refl.shape),dtype=int)
 
   #If echo is strong enough, rain = 1.
   rain[refl>=weakechothres] = 1
